@@ -141,8 +141,9 @@ instance Monad Unpickler where
                   case r of
                     Left err -> (Left err, st')
                     Right v  -> runUP (f v) st'
+#if !(MIN_VERSION_base(4,13,0))
     fail        = throwMsg                              -- don't use fail, use throwError
-
+#endif
 
 instance MonadState St Unpickler where
     get         = UP $ \ st -> (Right st, st)
